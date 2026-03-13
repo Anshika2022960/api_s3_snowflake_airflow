@@ -26,6 +26,7 @@ It is a good example of a real-world ELT pipeline where raw data is first loaded
 ## Flow of the project
 
 flowchart LR
+
     A[Random Users API] --> B[Python Extraction Script]
     B --> C[AWS S3 Bucket]
     C --> D[Snowpipe]
@@ -54,14 +55,14 @@ handles data quality issues
 prepares clean and usable data for analytics
 
 ## Tech Stack
-Tool / Technology	Purpose
-Python	API extraction and preprocessing
-Requests / Pandas	Fetch and process API data
-AWS S3	Raw data storage
-Snowflake	Data warehouse
-Snowpipe	Auto-ingestion from S3
-Apache Airflow	Workflow orchestration
-SQL	Data cleaning, deduplication, and merge logic
+Tool / Technology	         Purpose
+Python	                     API extraction and preprocessing
+Requests / Pandas	         Fetch and process API data
+AWS S3	                     Raw data storage
+Snowflake	                 Data warehouse
+Snowpipe	                 Auto-ingestion from S3
+Apache Airflow	             Workflow orchestration
+SQL	                         Data cleaning, deduplication, and merge logic
 
 
 
