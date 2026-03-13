@@ -44,24 +44,32 @@ flowchart LR
 
 The main objective of this project is to build an automated data pipeline that:
 
-extracts user data from an API
+   extracts user data from an API
 
-stores raw data in cloud storage
+   stores raw data in cloud storage
 
-loads data into Snowflake
+   loads data into Snowflake
 
-handles data quality issues
+   handles data quality issues
 
-prepares clean and usable data for analytics
+   prepares clean and usable data for analytics
 
 ## Tech Stack
+
 Tool / Technology	         Purpose
+
 Python	                     API extraction and preprocessing
+
 Requests / Pandas	         Fetch and process API data
+
 AWS S3	                     Raw data storage
+
 Snowflake	                 Data warehouse
+
 Snowpipe	                 Auto-ingestion from S3
+
 Apache Airflow	             Workflow orchestration
+
 SQL	                         Data cleaning, deduplication, and merge logic
 
 
