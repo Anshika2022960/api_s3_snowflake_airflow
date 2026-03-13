@@ -54,32 +54,21 @@ The main objective of this project is to build an automated data pipeline that:
    5. prepares clean and usable data for analytics
 
 ## Tech Stack
-
+- Python, Requests / Pandas, AWS S3, Snowflake, Snowpipe, Apache Airflow, SQL
 ## 🌐 API Used
 
-This project uses the Random Users API:
-https://api.freeapi.app/api/v1/public/randomusers?page=1&limit=500
-  The API returns user-related data such as:
-
-   user ID
-
-   first name
-
-   last name
-
-   username
-
-   email
-
-   gender
-
-   date of birth
-
-   phone number
-
-   country
-
-   password
+This project uses the Random Users API: https://api.freeapi.app/api/v1/public/randomusers?page=1&limit=500
+The API returns user-related data such as:
+ - user ID
+ - first name
+ - last name
+ - username
+ - email
+ - gender
+ - date of birth
+ - phone number
+ - country
+ - password
 
 ## End-to-End Workflow
 ## 1. Extract data from API
@@ -115,11 +104,11 @@ The raw data is first loaded into a staging table in Snowflake.
 
 This staging table is used to:
 
-    hold raw records
+    - hold raw records
 
-    inspect data quality
+    - inspect data quality
 
-    perform cleaning before inserting into final tables
+    - perform cleaning before inserting into final tables
 
 ## 6. Clean the data
 
@@ -149,21 +138,21 @@ The password field had null values in some records.
 
   ## Why this is a problem
 
-incomplete user records
+   - incomplete user records
 
-bad data quality
+   - bad data quality
 
-issues in systems requiring mandatory fields
+   - issues in systems requiring mandatory fields
 
   ## Cleaning options
 
 Depending on project requirement, null passwords can be handled by:
 
-  1.replacing null with a default placeholder
+  1. Replacing null with a default placeholder
 
-  2.filtering out records with null password
+  2. Filtering out records with null password
 
-  3.marking them for review
+  3. Marking them for review
 
 ## 2. Handling duplicate email addresses
  ## Problem
@@ -172,19 +161,19 @@ Some user records had duplicate email IDs.
 
  ## Why this is a problem
 
-  1.duplicate user entries
+  1. Duplicate user entries
 
-  2.unreliable reporting
+  2. Unreliable reporting
 
-  3.bad target table quality
+  3. Bad target table quality
 
-  4.issues in analytics or downstream applications
+  4. Issues in analytics or downstream applications
 
 ## ✅ Final Cleaning Logic
 
 Before loading data into the target table, the following cleaning logic is applied:
 
-  1.replace null password values using COALESCE
+  1.replace null password values using CASE WHEN expression
 
   2.remove duplicate emails using ROW_NUMBER()
 
@@ -200,80 +189,83 @@ After cleaning, the final data is merged into the target table.
 
 This project helped demonstrate important data engineering concepts such as:
 
-building an API-based ingestion pipeline
+- Fuilding an API-based ingestion pipeline
 
-storing raw data in cloud object storage
+- Storing raw data in cloud object storage
 
-using Snowpipe for automated ingestion
+- Using Snowpipe for automated ingestion
 
-designing staging and target layers
+- Designing staging and target layers
 
-performing practical data cleaning
+- Performing practical data cleaning
 
-handling null and duplicate values
+- Handling null and duplicate values
 
-preparing analytics-ready datasets
+- preparing analytics-ready datasets
 
 ## 🚧 Challenges Faced
-Null password values
+- Null password values
 
-Some records from the API contained missing password values, which required replacement using COALESCE() or filtering logic.
+- Some records from the API contained missing password values, which required replacement using COALESCE() or filtering logic CASE WHEN.
 
-Duplicate emails
+- Duplicate emails
 
-Multiple records shared the same email ID, so deduplication logic had to be implemented using ROW_NUMBER().
+- Multiple records shared the same email ID, so deduplication logic had to be implemented using ROW_NUMBER().
 
-Data quality validation
+- Data quality validation
 
-Raw API data cannot be directly trusted. Validation checks are necessary before loading into the final warehouse table.
+- Raw API data cannot be directly trusted. Validation checks are necessary before loading into the final warehouse table.
 
 ## ✅ Outcome
 
-After implementing this pipeline:
+- After implementing this pipeline:
 
-data was successfully extracted from the Random Users API
+- data was successfully extracted from the Random Users API
 
-raw records were stored in AWS S3
+- raw records were stored in AWS S3
 
-Snowpipe ingested the files into Snowflake
+- Snowpipe ingested the files into Snowflake
 
-null password values were handled
+- null password values were handled
 
-duplicate emails were removed
+- duplicate emails were removed
 
-clean user data was loaded into the final target table
+- clean user data was loaded into the final target table
 
 ## 📌 Key Features
 
-Automated API extraction
+- Automated API extraction
 
-Cloud storage using AWS S3
+- Cloud storage using AWS S3
 
-Snowflake data warehousing
+- Snowflake data warehousing
 
-Snowpipe auto-ingestion
+- Snowpipe auto-ingestion
 
-Airflow scheduling and orchestration
+- Airflow scheduling and orchestration
 
-Null handling for password field
+- Null handling for password field
 
-Deduplication based on email
+- Deduplication based on email
 
-Final clean target table for analytics
+- Final clean target table for analytics
 
 ## 🚀 Future Improvements
 
-Possible next enhancements:
+- Possible next enhancements:
 
-add data quality checks using Great Expectations
+- add data quality checks using Great Expectations
 
-use dbt for transformations
+- use dbt for transformations
 
-add logging and monitoring in Airflow
+- add logging and monitoring in Airflow
 
-implement incremental load tracking
+- implement incremental load tracking
 
-create Power BI or Tableau dashboard on top of Snowflake
+- create Power BI or Tableau dashboard on top of Snowflak
+  
+Automated ELT pipeline using Random Users API, AWS S3, Snowflake, Snowpipe, and Airflow with data cleaning for null passwords and duplicate emails.
+
 
 
 
