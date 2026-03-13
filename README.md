@@ -55,27 +55,27 @@ The main objective of this project is to build an automated data pipeline that:
 
 ## Tech Stack
 
-Tool / Technology	         Purpose
+Tool / Technology	                    Purpose
 
 
-Python	                     API extraction and preprocessing
+Python	                               API extraction and preprocessing
 
 
-Requests / Pandas	         Fetch and process API data
+Requests / Pandas	                   Fetch and process API data
 
-AWS S3	                     Raw data storage
-
-
-Snowflake	                 Data warehouse
+AWS S3	                               Raw data storage
 
 
-Snowpipe	                 Auto-ingestion from S3
+Snowflake	                           Data warehouse
 
 
-Apache Airflow	             Workflow orchestration
+Snowpipe	                           Auto-ingestion from S3
 
 
-SQL	                         Data cleaning, deduplication, and merge logic
+Apache Airflow	                       Workflow orchestration
+
+
+SQL	                                   Data cleaning, deduplication, and merge logic
 
 
 
