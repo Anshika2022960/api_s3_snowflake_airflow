@@ -44,7 +44,7 @@ flowchart LR
 
 The main objective of this project is to build an automated data pipeline that:
 
-   extracts user data from an API
+   # extracts user data from an API
 
    stores raw data in cloud storage
 
