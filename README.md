@@ -5,8 +5,7 @@
 This project demonstrates an end-to-end automated data pipeline that extracts data from an external API source, stores it in AWS S3, and loads it into Snowflake Data Warehouse using Snowpipe auto-ingestion. The entire workflow is orchestrated using Apache Airflow.
 
 The goal of this project is to showcase how modern data engineering pipelines automate data ingestion, transformation, and loading for analytics and business intelligence.
-The pipeline extracts user data from the following public API:
-https://api.freeapi.app/api/v1/public/randomusers?page=1&limit=500
+The pipeline extracts user data from the following public API:https://api.freeapi.app/api/v1/public/randomusers?page=1&limit=500
 The extracted data is stored in AWS S3, ingested into Snowflake using Snowpipe, and then cleaned and merged into the final target table.
 
 This project also highlights practical data quality challenges faced during implementation, such as:
@@ -44,31 +43,37 @@ flowchart LR
 
 The main objective of this project is to build an automated data pipeline that:
 
-    #extracts user data from an API
+   1. extracts user data from an API
 
-   stores raw data in cloud storage
+   2. stores raw data in cloud storage
 
-   loads data into Snowflake
+   3. loads data into Snowflake
 
-   handles data quality issues
+   4. handles data quality issues
 
-   prepares clean and usable data for analytics
+   5. prepares clean and usable data for analytics
 
 ## Tech Stack
 
 Tool / Technology	         Purpose
 
+
 Python	                     API extraction and preprocessing
+
 
 Requests / Pandas	         Fetch and process API data
 
 AWS S3	                     Raw data storage
 
+
 Snowflake	                 Data warehouse
+
 
 Snowpipe	                 Auto-ingestion from S3
 
+
 Apache Airflow	             Workflow orchestration
+
 
 SQL	                         Data cleaning, deduplication, and merge logic
 
