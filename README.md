@@ -55,32 +55,225 @@ The main objective of this project is to build an automated data pipeline that:
 
 ## Tech Stack
 
-Tool / Technology	                    Purpose
+## 🌐 API Used
 
+This project uses the Random Users API:
+https://api.freeapi.app/api/v1/public/randomusers?page=1&limit=500
+  The API returns user-related data such as:
 
-Python	                               API extraction and preprocessing
+   user ID
 
+   first name
 
-Requests / Pandas	                   Fetch and process API data
+   last name
 
-AWS S3	                               Raw data storage
+   username
 
+   email
 
-Snowflake	                           Data warehouse
+   gender
 
+   date of birth
 
-Snowpipe	                           Auto-ingestion from S3
+   phone number
 
+   country
 
-Apache Airflow	                       Workflow orchestration
+   password
 
+## End-to-End Workflow
+## 1. Extract data from API
 
-SQL	                                   Data cleaning, deduplication, and merge logic
+A Python script sends a request to the Random Users API and fetches up to 500 records.
 
+Example:
 
+import requests
+url = "https://api.freeapi.app/api/v1/public/randomusers?page=1&limit=500"
+response = requests.get(url)
+data = response.json()
 
+## 2. Save raw data
 
+The extracted API response is saved as a raw file such as JSON or CSV.
+Example output file: random_users_raw.csv
 
+## 3. Upload raw data to AWS S3
+
+The raw extracted file is uploaded into an AWS S3 bucket, which acts as the landing zone for the pipeline.
+
+Example structure: s3://random-users-pipeline/raw/randomusers_api_data.csv
+
+## 4. Snowpipe auto-ingestion
+
+Snowpipe continuously monitors the S3 location and automatically loads the new file into Snowflake.
+
+Flow: AWS S3 → Snowpipe → Snowflake Stage
+## 5. Load data into staging table
+
+The raw data is first loaded into a staging table in Snowflake.
+
+This staging table is used to:
+
+    hold raw records
+
+    inspect data quality
+
+    perform cleaning before inserting into final tables
+
+## 6. Clean the data
+
+During implementation, the following issues were identified:
+
+   Challenge 1: Null values in password
+
+       Some records had null password values, which can create issues in downstream systems if password is expected to be populated.
+
+   Challenge 2: Duplicate email addresses
+
+      Some records contained duplicate email IDs, which can cause:
+
+           1. duplicate customer profiles
+
+           2. merge conflicts
+
+           3. poor data quality in reporting systems
+
+These issues were cleaned in the transformation step before loading into the final target table.
+
+## Data Quality Challenges and Cleaning Approach
+## 1. Handling null password values
+  ## Problem
+
+The password field had null values in some records.
+
+  ## Why this is a problem
+
+incomplete user records
+
+bad data quality
+
+issues in systems requiring mandatory fields
+
+  ## Cleaning options
+
+Depending on project requirement, null passwords can be handled by:
+
+  1.replacing null with a default placeholder
+
+  2.filtering out records with null password
+
+  3.marking them for review
+
+## 2. Handling duplicate email addresses
+ ## Problem
+
+Some user records had duplicate email IDs.
+
+ ## Why this is a problem
+
+  1.duplicate user entries
+
+  2.unreliable reporting
+
+  3.bad target table quality
+
+  4.issues in analytics or downstream applications
+
+## ✅ Final Cleaning Logic
+
+Before loading data into the target table, the following cleaning logic is applied:
+
+  1.replace null password values using COALESCE
+
+  2.remove duplicate emails using ROW_NUMBER()
+
+  3.keep only valid, unique records
+
+  4.merge cleaned data into the final target table
+
+## 🔁 UPSERT into Target Table
+
+After cleaning, the final data is merged into the target table.
+
+## 📊 Real-World Learnings from This Project
+
+This project helped demonstrate important data engineering concepts such as:
+
+building an API-based ingestion pipeline
+
+storing raw data in cloud object storage
+
+using Snowpipe for automated ingestion
+
+designing staging and target layers
+
+performing practical data cleaning
+
+handling null and duplicate values
+
+preparing analytics-ready datasets
+
+## 🚧 Challenges Faced
+Null password values
+
+Some records from the API contained missing password values, which required replacement using COALESCE() or filtering logic.
+
+Duplicate emails
+
+Multiple records shared the same email ID, so deduplication logic had to be implemented using ROW_NUMBER().
+
+Data quality validation
+
+Raw API data cannot be directly trusted. Validation checks are necessary before loading into the final warehouse table.
+
+## ✅ Outcome
+
+After implementing this pipeline:
+
+data was successfully extracted from the Random Users API
+
+raw records were stored in AWS S3
+
+Snowpipe ingested the files into Snowflake
+
+null password values were handled
+
+duplicate emails were removed
+
+clean user data was loaded into the final target table
+
+## 📌 Key Features
+
+Automated API extraction
+
+Cloud storage using AWS S3
+
+Snowflake data warehousing
+
+Snowpipe auto-ingestion
+
+Airflow scheduling and orchestration
+
+Null handling for password field
+
+Deduplication based on email
+
+Final clean target table for analytics
+
+## 🚀 Future Improvements
+
+Possible next enhancements:
+
+add data quality checks using Great Expectations
+
+use dbt for transformations
+
+add logging and monitoring in Airflow
+
+implement incremental load tracking
+
+create Power BI or Tableau dashboard on top of Snowflake
 
 
 
